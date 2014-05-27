@@ -229,6 +229,12 @@ void* gl_Thread(void *startParams) {
 			}
 			// If we're asked to continue, recreate EGL context and surface.
 			if (!GLOBALS.threadPause && !hasContext) {
+            
+                if((&egl)->surface != EGL_NO_SURFACE) {
+                    eglDestroySurface((&egl)->display, (&egl)->surface);
+                    (&egl)->surface = EGL_NO_SURFACE;
+                }
+                
 				hasContext = gl_ContextCreate(&egl, funcs->chooseConfig);
 				if (!hasContext) {
 					LOGD("gl_Thread", "gl_ContextCreate failed");
